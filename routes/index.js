@@ -47,47 +47,48 @@ router.get('/meta_wa_callbackurl', (req, res) => {
 router.post('/meta_wa_callbackurl', async (req, res) => {
     console.log('POST: Someone is pinging me!');
     try {
-        let data = Whatsapp.parseMessage(req.body);
-        console.log('***************************req.body', req.body);
-        console.log('***********************response from whatsapp', data);
-        if (data?.notificationMessage?.conversation?.origin) {
-            console.log(
-                '***********************origin ',
-                JSON.stringify(data?.notificationMessage?.conversation?.origin)
-            );
-        }
-        if (data?.isMessage) {
-            let incomingMessage = data.message;
-            let recipientPhone = incomingMessage.from.phone; // extract the phone number of sender
-            let recipientName = incomingMessage.from.name;
-            let typeOfMsg = incomingMessage.type; // extract the type of message (some are text, others are images, others are responses to buttons etc...)
-            let message_id = incomingMessage.message_id; // extract the message id
+        console.log(
+            '***************************req.body',
+            JSON.stringify(obj, null, 2)
+        );
+        // if (data?.notificationMessage?.conversation?.origin) {
+        //     console.log(
+        //         '***********************origin ',
+        //         JSON.stringify(data?.notificationMessage?.conversation?.origin)
+        //     );
+        // }
+        // if (data?.isMessage) {
+        //     let incomingMessage = data.message;
+        //     let recipientPhone = incomingMessage.from.phone; // extract the phone number of sender
+        //     let recipientName = incomingMessage.from.name;
+        //     let typeOfMsg = incomingMessage.type; // extract the type of message (some are text, others are images, others are responses to buttons etc...)
+        //     let message_id = incomingMessage.message_id; // extract the message id
 
-            if (typeOfMsg === 'text_message') {
-                await Whatsapp.sendSimpleButtons({
-                    message: `Hey ${recipientName}, \nYou are speaking to a chatbot.\nPlease select product variant?`,
-                    recipientPhone: recipientPhone,
-                    listOfButtons: [
-                        {
-                            title: 'Cognition',
-                            id: 'cognition',
-                        },
-                        {
-                            title: 'Insider',
-                            id: 'insider',
-                        },
-                        {
-                            title: 'Whatnext',
-                            id: 'whatnext',
-                        },
-                    ],
-                });
-            }
+        //     // if (typeOfMsg === 'text_message') {
+        //     //     await Whatsapp.sendSimpleButtons({
+        //     //         message: `Hey ${recipientName}, \nYou are speaking to a chatbot.\nPlease select product variant?`,
+        //     //         recipientPhone: recipientPhone,
+        //     //         listOfButtons: [
+        //     //             {
+        //     //                 title: 'Cognition',
+        //     //                 id: 'cognition',
+        //     //             },
+        //     //             {
+        //     //                 title: 'Insider',
+        //     //                 id: 'insider',
+        //     //             },
+        //     //             {
+        //     //                 title: 'Whatnext',
+        //     //                 id: 'whatnext',
+        //     //             },
+        //     //         ],
+        //     //     });
+        //     // }
 
-            await Whatsapp.markMessageAsRead({
-                message_id,
-            });
-        }
+        //     await Whatsapp.markMessageAsRead({
+        //         message_id,
+        //     });
+        // }
 
         return res.sendStatus(200);
     } catch (error) {
