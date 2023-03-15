@@ -49,7 +49,11 @@ router.post('/meta_wa_callbackurl', async (req, res) => {
     try {
         console.log(
             '***************************req.body',
-            JSON.stringify(req, null, 2)
+            JSON.stringify(req.headers, null, 2)
+        );
+        console.log(
+            '***************************req.body',
+            JSON.stringify(req.body, null, 2)
         );
         // if (data?.notificationMessage?.conversation?.origin) {
         //     console.log(
